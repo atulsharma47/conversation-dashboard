@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Section -->
+    <div id="login">
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="Username">
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginButton">Login</button>
+    </div>
+
+    <!-- Chat Section -->
+    <div id="chat" style="display:none;">
+        <button id="logoutButton">Logout</button>
+        <textarea id="messageInput" placeholder="Type a message..."></textarea>
+        <button id="sendButton">Send</button>
+    </div>
+
+    <!-- Include Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io(); // Initialize Socket.io connection
+
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+
+        document.getElementById('sendButton').addEventListener('click', () => {
+            const message = document.getElementById('messageInput').value;
+            socket.emit('newMessage', { content: message });
+        });
+
+        socket.on('newMessage', (message) => {
+            console.log('New message:', message);
+        });
+    </script>
+    <script src="main.js>"></script>
+</body>
+</html>
